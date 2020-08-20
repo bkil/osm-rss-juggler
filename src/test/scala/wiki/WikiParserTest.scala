@@ -4,9 +4,9 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 import xml.Rss.{Doc, Item}
 
-class ParserTest extends AnyFreeSpec with Matchers {
+class WikiParserTest extends AnyFreeSpec with Matchers {
   "parse" - {
-    import Parser.parse
+    import WikiParser.parse
     "1" in {
       val xml =
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">

@@ -4,7 +4,7 @@ import xml.Html
 
 import scala.xml.Node
 
-object ItemProcessor {
+object MastodonItemProcessor {
   def produceTitle(n: Node): String = {
     val description = Html.removeTags((n \\ "description").text)
     if (description.nonEmpty)

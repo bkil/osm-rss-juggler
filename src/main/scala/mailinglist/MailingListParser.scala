@@ -1,20 +1,20 @@
-package wiki
+package mailinglist
 
 import xml.Rss.{Doc, Item}
 
 import scala.xml.{Elem, NodeSeq}
 
-object Parser {
+object MailingListParser {
 
   def parse(xml: Elem): Doc = {
     val channel = xml \\ "channel"
     Doc(
-      title = "Wiki (via bkil-bot)",
+      title = "Mailing list (via bkil-bot)",
       items = convertItems(channel \\ "item"))
   }
 
   private def convertItems(seq: NodeSeq): List[Item] = {
     seq
-      .map(n => Item(node = n, title = ItemProcessor.produceTitle(n))).toList
+      .map(n => Item(node = n, title = MailingListItemProcessor.produceTitle(n))).toList
   }
 }

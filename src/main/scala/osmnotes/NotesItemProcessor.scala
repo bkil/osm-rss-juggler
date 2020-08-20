@@ -1,10 +1,10 @@
 package osmnotes
 
-import osmnotes.TextProcessor._
+import osmnotes.NotesTextProcessor._
 
 import scala.xml.Node
 
-object ItemProcessor {
+object NotesItemProcessor {
   def itemFilter(n: Node): Boolean = {
     (n \\ "title").text.endsWith(", Hungary)")
   }

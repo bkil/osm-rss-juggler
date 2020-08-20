@@ -1,21 +1,20 @@
-package osmnotes
+package wiki
 
 import xml.Rss.{Doc, Item}
 
 import scala.xml.{Elem, NodeSeq}
 
-object Parser {
+object WikiParser {
 
   def parse(xml: Elem): Doc = {
     val channel = xml \\ "channel"
     Doc(
-      title = "Notes (via bkil-bot)",
+      title = "Wiki (via bkil-bot)",
       items = convertItems(channel \\ "item"))
   }
 
   private def convertItems(seq: NodeSeq): List[Item] = {
     seq
-      .filter(ItemProcessor.itemFilter)
-      .map(n => Item(node = n, title = ItemProcessor.produceTitle(n))).toList
+      .map(n => Item(node = n, title = WikiItemProcessor.produceTitle(n))).toList
   }
 }

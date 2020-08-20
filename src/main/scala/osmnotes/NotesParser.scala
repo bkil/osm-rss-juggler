@@ -1,20 +1,21 @@
-package mailinglist
+package osmnotes
 
 import xml.Rss.{Doc, Item}
 
 import scala.xml.{Elem, NodeSeq}
 
-object Parser {
+object NotesParser {
 
   def parse(xml: Elem): Doc = {
     val channel = xml \\ "channel"
     Doc(
-      title = "Mailing list (via bkil-bot)",
+      title = "Notes (via bkil-bot)",
       items = convertItems(channel \\ "item"))
   }
 
   private def convertItems(seq: NodeSeq): List[Item] = {
     seq
-      .map(n => Item(node = n, title = ItemProcessor.produceTitle(n))).toList
+      .filter(NotesItemProcessor.itemFilter)
+      .map(n => Item(node = n, title = NotesItemProcessor.produceTitle(n))).toList
   }
 }

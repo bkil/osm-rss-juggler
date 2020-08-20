@@ -4,9 +4,9 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 import xml.Rss.{Doc, Item}
 
-class ParserTest extends AnyFreeSpec with Matchers {
+class MastodonParserTest extends AnyFreeSpec with Matchers {
   "parse" - {
-    import Parser.parse
+    import MastodonParser.parse
     "1" in {
       val xml =
 <rss version="2.0" xmlns:webfeeds="http://webfeeds.org/rss/1.0">

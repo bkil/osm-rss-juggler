@@ -3,9 +3,9 @@ package osmnotes
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 
-class TextProcessorTest extends AnyFreeSpec with Matchers {
+class NotesTextProcessorTest extends AnyFreeSpec with Matchers {
   "simplifyTitle" - {
-    import osmnotes.TextProcessor.simplifyTitle
+    import NotesTextProcessor.simplifyTitle
     "1" in {
       simplifyTitle(" (near Kométa 99 Zrt., Nagygát, Kaposvár, Kaposvári járás, Somogy, Southern Transdanubia, Transdanubia, 7400, Hungary)") shouldBe
         " (near Kométa 99 Zrt., Nagygát, Kaposvár)"
@@ -21,7 +21,7 @@ class TextProcessorTest extends AnyFreeSpec with Matchers {
   }
 
   "formatComment" - {
-    import osmnotes.TextProcessor.formatComment
+    import NotesTextProcessor.formatComment
     "1" in {
       val comment = """Created <span title="24 July 2020 at 10:41">19 days ago</span> by <a href="https://www.openstreetmap.org/user/HeidrichA">HeidrichA</a></div> <div class="note-comment-text">pls see at note #2277015"""
       formatComment(comment) shouldBe "* 2020 July 24 10:41 HeidrichA Created: pls see at note #2277015"
@@ -34,7 +34,7 @@ class TextProcessorTest extends AnyFreeSpec with Matchers {
   }
 
   "sliceCommentsInDescrption" - {
-    import osmnotes.TextProcessor.sliceCommentsInDescription
+    import NotesTextProcessor.sliceCommentsInDescription
     "1" in {
       val desc =
         """

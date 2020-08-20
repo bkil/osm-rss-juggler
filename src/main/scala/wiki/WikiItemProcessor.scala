@@ -4,7 +4,7 @@ import xml.Html
 
 import scala.xml.Node
 
-object ItemProcessor {
+object WikiItemProcessor {
   def produceTitle(n: Node): String = {
     val dcCreator = (n \\ "creator").text
     val title = Html.removeTags((n \\ "title").text)

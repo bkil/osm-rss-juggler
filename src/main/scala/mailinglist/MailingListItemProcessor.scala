@@ -4,7 +4,7 @@ import xml.Html
 
 import scala.xml.Node
 
-object ItemProcessor {
+object MailingListItemProcessor {
   def produceTitle(n: Node): String = {
     val author = Html.removeTags((n \\ "author").text)
     val title = Html.removeTags((n \\ "title").text)

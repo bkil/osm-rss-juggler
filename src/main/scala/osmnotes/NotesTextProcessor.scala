@@ -1,6 +1,6 @@
 package osmnotes
 
-object TextProcessor {
+object NotesTextProcessor {
   def simplifyTitle(t: String): String = {
     noDuplicate(noJaras(noDistrict(ignoreDash(t))))
   }

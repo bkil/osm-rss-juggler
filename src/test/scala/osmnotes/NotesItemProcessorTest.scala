@@ -3,9 +3,9 @@ package osmnotes
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 
-class ItemProcessorTest extends AnyFreeSpec with Matchers {
+class NotesItemProcessorTest extends AnyFreeSpec with Matchers {
   "produceTitle" - {
-    import osmnotes.ItemProcessor.produceTitle
+    import NotesItemProcessor.produceTitle
     "1" in {
       val xml =
         <item>
@@ -19,7 +19,7 @@ class ItemProcessorTest extends AnyFreeSpec with Matchers {
       produceTitle(xml) shouldBe List(
         "closed note (near Szeged)",
         "* 2020 July 24 10:41 HeidrichA Created: pls see at note #2277015",
-        "* 2020 August 12 20:49 gabro00 Resolved: Több probléma is volt, igyekeztem mindet megoldani. Ha nem sikerült volna maradéktalanul, nyisd újra a jegyzetet. https://www.openstreetmap.org/changeset/89322029").mkString(TextProcessor.br)
+        "* 2020 August 12 20:49 gabro00 Resolved: Több probléma is volt, igyekeztem mindet megoldani. Ha nem sikerült volna maradéktalanul, nyisd újra a jegyzetet. https://www.openstreetmap.org/changeset/89322029").mkString(NotesTextProcessor.br)
     }
   }
 }

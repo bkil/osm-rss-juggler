@@ -4,7 +4,7 @@ import xml.Rss.{Doc, Item}
 
 import scala.xml.{Elem, NodeSeq}
 
-object Parser {
+object MastodonParser {
 
   def parse(xml: Elem, account: String): Doc = {
     val channel = xml \\ "channel"
@@ -15,6 +15,6 @@ object Parser {
 
   private def convertItems(seq: NodeSeq): List[Item] = {
     seq
-      .map(n => Item(node = n, title = ItemProcessor.produceTitle(n))).toList
+      .map(n => Item(node = n, title = MastodonItemProcessor.produceTitle(n))).toList
   }
 }

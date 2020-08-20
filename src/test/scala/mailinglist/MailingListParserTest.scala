@@ -4,9 +4,9 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 import xml.Rss.{Doc, Item}
 
-class ParserTest extends AnyFreeSpec with Matchers {
+class MailingListParserTest extends AnyFreeSpec with Matchers {
   "parse" - {
-    import Parser.parse
+    import MailingListParser.parse
     "1" in {
       val xml =
 <rss version="2.0"><channel><title>openstreetmap-hungary</title>
