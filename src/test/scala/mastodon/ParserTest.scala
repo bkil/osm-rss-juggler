@@ -46,7 +46,8 @@ headers/000/007/495/original/34900e788389bb18.jpeg"/>
               " It’s 310-pages long read, released under # CC -BY-SA, but organized in small chapters," +
               " so you can cherry-pick. # ebooks # FOSS # OpenAdvice",
             link = "https://en.osm.town/@Doudouosm/104690824925256017",
-            guid = "https://en.osm.town/@Doudouosm/104690824925256017"
+            guid = "https://en.osm.town/@Doudouosm/104690824925256017",
+            pubDate = "Sat, 15 Aug 2020 01:33:34 +0000"
           )
         )
       )

@@ -16,10 +16,6 @@ object Parser {
   private def convertItems(seq: NodeSeq): List[Item] = {
     seq
       .filter(ItemProcessor.itemFilter)
-      .map(n => Item(
-      guid = (n \\ "guid").text,
-      title = ItemProcessor.produceTitle(n),
-      link = (n \\ "link").text
-    )).toList
+      .map(n => Item(node = n, title = ItemProcessor.produceTitle(n))).toList
   }
 }

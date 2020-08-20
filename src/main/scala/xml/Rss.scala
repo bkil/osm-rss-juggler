@@ -2,7 +2,7 @@ package xml
 
 import java.io.PrintWriter
 
-import scala.xml.{Elem, XML}
+import scala.xml.{Elem, Node, XML}
 
 object Rss {
 
@@ -24,6 +24,7 @@ object Rss {
         <title>{item.title}</title>
         <link>{item.link}</link>
         <guid>{item.guid}</guid>
+        <pubDate>{item.pubDate}</pubDate>
       </item>
 
       }
@@ -37,6 +38,15 @@ object Rss {
     }
   }
 
-  final case class Item(title: String, link: String, guid: String)
+  final case class Item(title: String, link: String, guid: String, pubDate: String)
 
+  object Item {
+    def apply(node: Node, title: String): Item =
+      Item(
+        guid = (node \\ "guid").text,
+        title = title,
+        link = (node \\ "link").text,
+        pubDate = (node \\ "pubDate").text
+      )
+  }
 }
