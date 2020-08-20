@@ -4,5 +4,6 @@ object Main extends App {
   private def run(): Unit = {
     osmnotes.run()
     mailinglist.run()
+    mastodon.run()
   }
 }
