@@ -5,5 +5,6 @@ object Main extends App {
     osmnotes.run()
     mailinglist.run()
     mastodon.run()
+    wiki.run()
   }
 }

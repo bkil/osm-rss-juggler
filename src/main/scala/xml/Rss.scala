@@ -7,6 +7,10 @@ import scala.xml.{Elem, Node, XML}
 object Rss {
 
   final case class Doc(title: String, items: List[Item]) {
+    def distinctConcat(doc: Doc): Doc = {
+      Doc(title = title, items = (items ++ doc.items).distinct)
+    }
+
     def save(file: String): Unit = {
       XML.save(filename = file, node = toXml, xmlDecl = true)
     }
