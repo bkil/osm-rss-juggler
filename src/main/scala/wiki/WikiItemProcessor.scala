@@ -11,7 +11,6 @@ object WikiItemProcessor {
     val pubDate = (n \\ "pubDate").text
     val fullDescription = (n \\ "description").text
     val description = Html.removeTags(fullDescription.split("\n").head)
-    println(n)
     s"$title: $description ($pubDate) -$dcCreator"
   }
 }
