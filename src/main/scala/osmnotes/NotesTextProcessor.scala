@@ -24,21 +24,32 @@ object NotesTextProcessor {
 
     def chompSuf(s: String) = raw"""(?s)\s*</div>\s*</div>\s*</div>\s*""".r.replaceAllIn(s, "")
 
-    chompSuf(chompPre(description))
+    val (times, comments) = chompSuf(chompPre(description))
       .split("""(?s)\s*</div>\s*</div>\s*<div class="note-comment" style="margin-top: 5px">\s*<div class="note-comment-description" style="font-size: smaller; color: #999999">""")
       .map(formatComment)
       .toList
+      .unzip
+
+    if (times.takeRight(2).toSet.size == 2)
+      comments
+    else
+      comments.takeRight(1)
   }
 
-  def formatComment(s: String): String = {
+  def formatComment(s: String): (String, String) = {
     def emptyNull(str: String): String =
       if (str == null)
         ""
       else str
-    val md =
-      raw"""(?s)([^<>]*) <span title=" *([^" ]+) ([^" ]+) ([^" ]+) at ([0-9]{2}:[0-9]{2})">[^<>]*</span>( by( )<a href="https://www\.openstreetmap\.org/user/[^"]*">([^<>]*)</a>)?</div>\s*<div class="note-comment-text">"""
-        .r.replaceAllIn(s, m => s"* ${m.group(4)} ${m.group(3)} ${m.group(2)} ${m.group(5)}${emptyNull(m.group(7))}${emptyNull(m.group(8))} ${m.group(1)}: ")
-    raw"""(?s)(\s*\n\s*)+""".r.replaceAllIn(md, br)
+    def dropWraps(str: String): String =
+      raw"""(?s)(\s*\n\s*)+""".r.replaceAllIn(str, br)
+    val formatter = raw"""(?s)([^<>]*) <span title=" *([^" ]+) ([^" ]+) ([^" ]+) at ([0-9]{2}:[0-9]{2})">[^<>]*</span>( by( )<a href="https://www\.openstreetmap\.org/user/[^"]*">([^<>]*)</a>)?</div>\s*<div class="note-comment-text">(.*)""".r
+    s match {
+      case formatter(action, day, month, year, time, _, creatorSpace, creatorName, comment) =>
+        s"$year $month $day" ->
+          s"* $year $month $day $time${emptyNull(creatorSpace)}${emptyNull(creatorName)} $action: ${dropWraps(comment)}"
+      case _ => s -> s
+    }
   }
 
   val br = " / " // "<br />\n"
