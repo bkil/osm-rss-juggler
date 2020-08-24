@@ -6,15 +6,19 @@ import org.scalatest.matchers.should.Matchers
 class NotesTextProcessorTest extends AnyFreeSpec with Matchers {
   "simplifyTitle" - {
     import NotesTextProcessor.simplifyTitle
-    "1" in {
+    "snip after járás" in {
       simplifyTitle(" (near Kométa 99 Zrt., Nagygát, Kaposvár, Kaposvári járás, Somogy, Southern Transdanubia, Transdanubia, 7400, Hungary)") shouldBe
         " (near Kométa 99 Zrt., Nagygát, Kaposvár)"
     }
-    "2" in {
+    "snip after regional unit" in {
+      simplifyTitle(" (near Isaszeg, Gödöllő Regional Unit, Pest megye, Central Hungary, 2117, Hungary)") shouldBe
+        " (near Isaszeg)"
+    }
+    "snip after Budapest district" in {
       simplifyTitle(" (near Belső-Ferencváros, 9th district, Budapest, Central Hungary, Hungary)") shouldBe
         " (near Belső-Ferencváros, 9th district)"
     }
-    "3" in {
+    "deduplicated locality" in {
       simplifyTitle(" (near Csepel–Gyártelep, Csepel-Gyártelep, 21st district, Budapest, Central Hungary, 1211, Hungary)") shouldBe
         " (near Csepel-Gyártelep, 21st district)"
     }

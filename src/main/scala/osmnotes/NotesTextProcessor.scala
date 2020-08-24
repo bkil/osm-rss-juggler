@@ -9,7 +9,7 @@ object NotesTextProcessor {
 
   def noDistrict(s: String) = raw"(, [1-9][0-9]*(st|nd|rd|th) district), .*".r.replaceAllIn(s, n => s"${n.group(1)})")
 
-  def noJaras(s: String) = raw""", [^,]* járás(, .*|)\)""".r.replaceAllIn(s, ")")
+  def noJaras(s: String) = raw""", [^,]* (járás|Regional Unit)(, .*|)\)""".r.replaceAllIn(s, ")")
 
   def noDuplicate(s: String) =
     raw"""( \(near )([^,]*), ([^,]*)(, |\))""".r.replaceAllIn(s,
