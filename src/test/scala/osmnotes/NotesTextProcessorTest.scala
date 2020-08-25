@@ -54,11 +54,9 @@ class NotesTextProcessorTest extends AnyFreeSpec with Matchers {
       val desc =
         """|<h2>Comment</h2>
            |<div class="note-comment" style="margin-top: 5px">
-           |  <div class="note-comment-description" style="font-size: smaller; color: #999999">Resolved <span title="12 Augu
-           |st 2020 at 20:49">about 2 hours ago</span> by <a href="https://www.openstreetmap.org/user/gabro00">gabro00</a></
-           |div>
-           |  <div class="note-comment-text">Több probléma is volt, igyekeztem mindet megoldani. Ha nem sikerült volna marad
-           |éktalanul, nyisd újra a jegyzetet.
+           |  <div class="note-comment-description" style="font-size: smaller; color: #999999">Resolved <span title="12 August 2020 at 20:49">
+           |about 2 hours ago</span> by <a href="https://www.openstreetmap.org/user/gabro00">gabro00</a></div>
+           |  <div class="note-comment-text">Több probléma is volt, igyekeztem mindet megoldani. Ha nem sikerült volna maradéktalanul, nyisd újra a jegyzetet.
            |
            |https://www.openstreetmap.org/changeset/89322029</div>
            |</div>
@@ -85,6 +83,17 @@ class NotesTextProcessorTest extends AnyFreeSpec with Matchers {
       )
     }
 
+    "ignore comments from the future" in {
+      val desc =
+        """
+          |<h2>Comment</h2> <div class="note-comment" style="margin-top: 5px"> <div class="note-comment-description" style="font-size: smaller; color: #999999">Resolved <span title="12 August 2020 at 20:49">about 2 hours ago</span> by <a href="https://www.openstreetmap.org/user/gabro00">gabro00</a></div> <div class="note-comment-text">Több</div> </div> <h2>Full note</h2> <div> <div class="note-comment" style="margin-top: 5px"> <div class="note-comment-description" style="font-size: smaller; color: #999999">Created <span title="1 August 2020 at 10:41">19 days ago</span> by <a href="https://www.openstreetmap.org/user/HeidrichA">HeidrichA</a></div> <div class="note-comment-text">pls</div> </div> <div class="note-comment" style="margin-top: 5px"> <div class="note-comment-description" style="font-size: smaller; color: #999999">Resolved <span title="12 August 2020 at 20:49">about 2 hours ago</span> by <a href="https://www.openstreetmap.org/user/gabro00">gabro00</a></div> <div class="note-comment-text">Több</div> </div> <div class="note-comment" style="margin-top: 5px"> <div class="note-comment-description" style="font-size: smaller; color: #999999">Created <span title="14 August 2020 at 10:41">19 days ago</span> by <a href="https://www.openstreetmap.org/user/HeidrichA">HeidrichA</a></div> <div class="note-comment-text">future</div> </div> </div>
+          |""".stripMargin
+      sliceCommentsInDescription(desc) should contain theSameElementsAs List(
+        "* 2020 August 1 10:41 HeidrichA Created: pls",
+        "* 2020 August 12 20:49 gabro00 Resolved: Több"
+      )
+    }
+
     "skip previous comments from same day" in {
       val desc =
         """
@@ -93,6 +102,63 @@ class NotesTextProcessorTest extends AnyFreeSpec with Matchers {
       sliceCommentsInDescription(desc) should contain theSameElementsAs List(
         "* 2020 August 12 20:49 gabro00 Resolved: Több"
       )
+    }
+  }
+
+  "pruneComments" - {
+    import NotesTextProcessor.pruneComments
+    "preserve old history" in {
+      pruneComments(List(
+        "3" -> "c",
+        "1" -> "a",
+        "2" -> "b",
+        "3" -> "c")) shouldBe
+        List("a", "b", "c")
+    }
+
+    "preserve history in case of parse error" in {
+      pruneComments(List(
+        "33" -> "cc",
+        "1" -> "a",
+        "2" -> "b",
+        "3" -> "c")) shouldBe
+        List("a", "b", "c", "cc")
+    }
+
+    "skip future comment on old thread" in {
+      pruneComments(List(
+        "2" -> "b",
+        "1" -> "a",
+        "2" -> "b",
+        "3" -> "c")) shouldBe
+        List("a", "b")
+    }
+
+    "skip future comments on old thread" in {
+      pruneComments(List(
+        "1" -> "a",
+        "1" -> "a",
+        "2" -> "b",
+        "3" -> "c")) shouldBe
+        List("a")
+    }
+
+    "skip future comments on recent thread" in {
+      pruneComments(List(
+        "2" -> "b",
+        "1" -> "a",
+        "2" -> "b",
+        "2" -> "c")) shouldBe
+        List("a", "b")
+    }
+
+    "skip past comments on recent thread" in {
+      pruneComments(List(
+        "2" -> "c",
+        "1" -> "a",
+        "2" -> "b",
+        "2" -> "c")) shouldBe
+        List("c")
     }
   }
 }

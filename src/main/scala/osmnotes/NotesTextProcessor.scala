@@ -20,20 +20,29 @@ object NotesTextProcessor {
     )
 
   def sliceCommentsInDescription(description: String): List[String] = {
-    def chompPre(s: String) = raw"""(?s).*<h2>Full note</h2>\s*<div>\s*<div class="note-comment" style="margin-top: 5px">\s*<div class="note-comment-description" style="font-size: smaller; color: #999999">""".r.replaceAllIn(s, "")
+    def chompPre(s: String) = raw"""<h2>[^<>]*</h2>\s*(<div>)?""".r.replaceAllIn(s, "")
 
     def chompSuf(s: String) = raw"""(?s)\s*</div>\s*</div>\s*</div>\s*""".r.replaceAllIn(s, "")
 
-    val (times, comments) = chompSuf(chompPre(description))
-      .split("""(?s)\s*</div>\s*</div>\s*<div class="note-comment" style="margin-top: 5px">\s*<div class="note-comment-description" style="font-size: smaller; color: #999999">""")
+    val allComments = chompSuf(chompPre(description))
+      .split("""(?s)(\s*</div>\s*</div>)?\s*<div class="note-comment" style="margin-top: 5px">\s*<div class="note-comment-description" style="font-size: smaller; color: #999999">""")
+      .filter(_.nonEmpty)
       .map(formatComment)
       .toList
-      .unzip
+    pruneComments(allComments)
+  }
 
-    if (times.takeRight(2).toSet.size == 2)
-      comments
-    else
-      comments.takeRight(1)
+  def pruneComments(allComments: List[(String, String)]): List[String] = {
+    allComments match {
+      case recent :: rest =>
+        val (times, comments) = (rest.takeWhile(_ != recent) :+ recent).unzip
+        if (times.takeRight(2).toSet.size == 2)
+          comments
+        else
+          comments.takeRight(1)
+      case _ =>
+        allComments.map(_._2)
+    }
   }
 
   def formatComment(s: String): (String, String) = {
@@ -41,8 +50,10 @@ object NotesTextProcessor {
       if (str == null)
         ""
       else str
+
     def dropWraps(str: String): String =
       raw"""(?s)(\s*\n\s*)+""".r.replaceAllIn(str, br)
+
     val formatter = raw"""(?s)([^<>]*) <span title=" *([^" ]+) ([^" ]+) ([^" ]+) at ([0-9]{2}:[0-9]{2})">[^<>]*</span>( by( )<a href="https://www\.openstreetmap\.org/user/[^"]*">([^<>]*)</a>)?</div>\s*<div class="note-comment-text">(.*)""".r
     s match {
       case formatter(action, day, month, year, time, _, creatorSpace, creatorName, comment) =>
