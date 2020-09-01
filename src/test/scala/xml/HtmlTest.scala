@@ -7,13 +7,13 @@ class HtmlTest extends AnyFreeSpec with Matchers {
   "removeTags" - {
     import Html.removeTags
     "1" in {
-      removeTags("hi <br /> ho") shouldBe "hi ho"
+      removeTags("hi<br/>ho") shouldBe "hi ho"
     }
     "2" in {
-      removeTags("<b>hi</b><i>ho</hi>") shouldBe "hi ho"
+      removeTags("<b>hi</b><i>ho</hi>") shouldBe "hiho"
     }
     "3" in {
-      removeTags("""<b><span id="42">hi</span>ho</b>""") shouldBe "hi ho"
+      removeTags("""<b><span id="42">hi </span> ho</b>""") shouldBe "hi ho"
     }
     "4" in {
       removeTags("hi\nho") shouldBe "hi ho"

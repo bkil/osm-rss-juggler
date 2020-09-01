@@ -42,9 +42,9 @@ headers/000/007/495/original/34900e788389bb18.jpeg"/>
           Item(
             title = "“Open Advice” is a knowledge collection from a wide variety of Free Software projects." +
               " It answers the question what 42 prominent contributors would have liked to know when they started," +
-              " so you can get a head-start no matter how and where you contribute. Read it: http://www. open-advice.org ." +
-              " It’s 310-pages long read, released under # CC -BY-SA, but organized in small chapters," +
-              " so you can cherry-pick. # ebooks # FOSS # OpenAdvice",
+              " so you can get a head-start no matter how and where you contribute. Read it: http://www.open-advice.org." +
+              " It’s 310-pages long read, released under #CC-BY-SA, but organized in small chapters," +
+              " so you can cherry-pick. #ebooks #FOSS #OpenAdvice",
             link = "https://en.osm.town/@Doudouosm/104690824925256017",
             guid = "https://en.osm.town/@Doudouosm/104690824925256017",
             pubDate = "Sat, 15 Aug 2020 01:33:34 +0000"
