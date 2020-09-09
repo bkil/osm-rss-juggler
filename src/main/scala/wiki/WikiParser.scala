@@ -14,7 +14,11 @@ object WikiParser {
   }
 
   private def convertItems(seq: NodeSeq): List[Item] = {
+    def removeOldId(s: String) = "&oldid=[^&]*".r.replaceAllIn(s, "")
     seq
-      .map(n => Item(node = n, title = WikiItemProcessor.produceTitle(n))).toList
+      .map(n => {
+        val guid = removeOldId((n \\ "guid").text)
+        Item(node = n, title = WikiItemProcessor.produceTitle(n), guid = Some(guid))
+      }).toList
   }
 }
