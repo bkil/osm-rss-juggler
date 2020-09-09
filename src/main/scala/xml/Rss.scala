@@ -45,9 +45,9 @@ object Rss {
   final case class Item(title: String, link: String, guid: String, pubDate: String)
 
   object Item {
-    def apply(node: Node, title: String): Item =
+    def apply(node: Node, title: String, guid: Option[String] = None): Item =
       Item(
-        guid = (node \\ "guid").text,
+        guid = guid.getOrElse((node \\ "guid").text),
         title = title,
         link = (node \\ "link").text,
         pubDate = (node \\ "pubDate").text
