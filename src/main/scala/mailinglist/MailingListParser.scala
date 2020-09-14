@@ -15,6 +15,9 @@ object MailingListParser {
 
   private def convertItems(seq: NodeSeq): List[Item] = {
     seq
-      .map(n => Item(node = n, title = MailingListItemProcessor.produceTitle(n))).toList
+      .map(n => {
+        val link = (n \\ "link").text
+        Item(node = n, title = MailingListItemProcessor.produceTitle(n), guid = Some(link))
+      }).toList
   }
 }

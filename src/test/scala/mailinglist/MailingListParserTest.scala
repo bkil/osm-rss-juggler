@@ -27,7 +27,7 @@ OpenStreet Mapper</author>
           Item(
             title = "Interesting subject: Item descriptiontext -OpenStreet Mapper",
             link = "https://groups.google.com/d/msg/openstreetmap-hungary/42/69",
-            guid = "https://groups.google.com/d/topic/openstreetmap-hungary/42",
+            guid = "https://groups.google.com/d/msg/openstreetmap-hungary/42/69",
             pubDate = "Sat, 1 Apr 2020 13:37:00 UTC"
           )
         )
