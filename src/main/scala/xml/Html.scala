@@ -1,5 +1,10 @@
 package xml
 
+import java.net.URL
+
+import scala.xml.Source.fromInputStream
+import scala.xml.{Elem, XML}
+
 object Html {
   def removeTags(str: String): String = {
     def stripBreaking(s: String) =
@@ -10,5 +15,11 @@ object Html {
       raw"\s+".r.replaceAllIn(s, " ")
 
     compressSpace(stripNonBreaking(stripBreaking(str))).trim
+  }
+
+  def fetch(url: URL): Elem = {
+    val con = url.openConnection()
+    con.setRequestProperty("User-Agent", "osm-rss-juggler/0.1")
+    XML.load(fromInputStream(con.getInputStream))
   }
 }

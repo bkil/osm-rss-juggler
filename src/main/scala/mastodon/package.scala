@@ -1,16 +1,16 @@
 import java.net.URL
 
-import scala.xml.XML
+import xml.Html
 
 package object mastodon {
   def run(): Unit = {
-    val douXml = XML.load(new URL("https://en.osm.town/@Doudouosm.rss"))
-    val douDoc = MastodonParser.parse(douXml, "en.osm.town/@Doudouosm")
+    val douUrl = new URL("https://en.osm.town/@Doudouosm.rss")
+    val douDoc = MastodonParser.parse(Html.fetch(douUrl), "en.osm.town/@Doudouosm")
     println(douDoc.items.length, douDoc.title)
     douDoc.save("mastodon-doudouosm.xml")
 
-    val osmXml = XML.load(new URL("https://en.osm.town/@openstreetmap.rss"))
-    val osmDoc = MastodonParser.parse(osmXml, "en.osm.town/@openstreetmap.rss")
+    val osmUrl = new URL("https://en.osm.town/@openstreetmap.rss")
+    val osmDoc = MastodonParser.parse(Html.fetch(osmUrl), "en.osm.town/@openstreetmap.rss")
     println(osmDoc.items.length, osmDoc.title)
     osmDoc.save("mastodon-openstreetmap.xml")
   }
