@@ -6,5 +6,6 @@ object Main extends App {
     mailinglist.run()
     mastodon.run()
     wiki.run()
+    gitlab.run()
   }
 }
