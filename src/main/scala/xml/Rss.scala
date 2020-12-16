@@ -11,6 +11,12 @@ object Rss {
       Doc(title = title, items = (items ++ doc.items).distinct)
     }
 
+    def transformItems(f: Item => Item): Doc = {
+      this.copy(
+        items = items.map(f)
+      )
+    }
+
     def save(file: String): Unit = {
       XML.save(filename = file, node = toXml, xmlDecl = true)
     }
@@ -52,5 +58,9 @@ object Rss {
         link = (node \\ "link").text,
         pubDate = (node \\ "pubDate").text
       )
+
+    def prefixLink(prefix: String): Item => Item = {
+      i => i.copy(link = s"$prefix${i.link}")
+    }
   }
 }
