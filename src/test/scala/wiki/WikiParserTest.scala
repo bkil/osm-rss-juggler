@@ -88,7 +88,7 @@ class WikiParserTest extends AnyFreeSpec with Matchers {
         title = "Wiki (via bkil-bot)",
         items = List(
           Item(
-            title = "Hungary/Találkozók/2020-08-08-agard: Eredmények: add (Thu, 13 Aug 2020 13:36:03 GMT) -Bkil",
+            title = "Hungary/Találkozók/2020-08-08-agard: Eredmények: add -Bkil",
             link = "https://wiki.openstreetmap.org/w/index.php?title=Hungary/Tal%C3%A1lkoz%C3%B3k/2020-08-08-agard&diff=2021552&oldid=2019606",
             guid = "https://wiki.openstreetmap.org/w/index.php?title=Hungary/Tal%C3%A1lkoz%C3%B3k/2020-08-08-agard&diff=2021552",
             pubDate = "Thu, 13 Aug 2020 13:36:03 GMT"
