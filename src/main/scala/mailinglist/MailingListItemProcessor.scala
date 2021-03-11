@@ -11,4 +11,13 @@ object MailingListItemProcessor {
     val description = Html.removeTags((n \\ "description").text)
     s"$title: $description -$author"
   }
+
+  def produceLink(n: Node): String = {
+    val parse = raw"https://groups.google.com/d/msg/openstreetmap-hungary/([^/]+)/([^/]+)".r
+    (n \\ "link").text match {
+      case parse(subject, message) =>
+        s"https://groups.google.com/g/openstreetmap-hungary/c/$subject/m/$message"
+      case s => s
+    }
+  }
 }
