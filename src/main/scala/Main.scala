@@ -1,11 +1,26 @@
+import scala.util.Try
+import scala.util.control.NonFatal
+
 object Main extends App {
   run()
 
   private def run(): Unit = {
-    osmnotes.run()
-    mailinglist.run()
-    mastodon.run()
-    wiki.run()
-    gitlab.run()
+    runIgnored(List(
+      () => osmnotes.run(),
+      () => mailinglist.run(),
+      () => mastodon.run(),
+      () => wiki.run(),
+      () => gitlab.run()))
+  }
+
+  private def runIgnored(fs: List[() => Unit]): Unit = {
+    fs.foreach { f =>
+      try {
+        f()
+      } catch {
+        case NonFatal(e) =>
+          println(s"error: $e")
+      }
+    }
   }
 }
