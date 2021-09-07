@@ -1,4 +1,3 @@
-import scala.util.Try
 import scala.util.control.NonFatal
 
 object Main extends App {
@@ -10,7 +9,9 @@ object Main extends App {
       () => mailinglist.run(),
       () => mastodon.run(),
       () => wiki.run(),
-      () => gitlab.run()))
+      () => gitlab.run(),
+      () => wigle.run()
+    ))
   }
 
   private def runIgnored(fs: List[() => Unit]): Unit = {
