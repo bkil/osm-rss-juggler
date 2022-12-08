@@ -2,7 +2,7 @@ package osmnotes
 
 object NotesTextProcessor {
   def simplifyTitle(t: String): String = {
-    noDuplicate(noJaras(noDistrict(ignoreDash(t))))
+    noDuplicate(noRegion(noJaras(noDistrict(ignoreDash(t)))))
   }
 
   def ignoreDash(s: String) = s.replace("–", "-")
@@ -10,6 +10,8 @@ object NotesTextProcessor {
   def noDistrict(s: String) = raw"(, [1-9][0-9]*(st|nd|rd|th) district), .*".r.replaceAllIn(s, n => s"${n.group(1)})")
 
   def noJaras(s: String) = raw""", [^,]* (járás|Regional Unit)(, .*|)\)""".r.replaceAllIn(s, ")")
+
+  def noRegion(s: String) = raw""", (Transdanubia|Great Plain and North),""".r.replaceAllIn(s, ",")
 
   def noDuplicate(s: String) =
     raw"""( \(near )([^,]*), ([^,]*)(, |\))""".r.replaceAllIn(s,
