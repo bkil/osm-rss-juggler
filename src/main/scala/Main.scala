@@ -5,6 +5,7 @@ object Main extends App {
 
   private def run(): Unit = {
     runIgnored(List(
+      () => changesetdiscuss.run(),
       () => osmnotes.run(),
       () => mailinglist.run(),
       () => mastodon.run(),
