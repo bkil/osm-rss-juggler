@@ -17,17 +17,17 @@ object WigleParser {
   private def convertItems(seq: NodeSeq): (Option[String], List[Item]) = {
     seq.foldLeft((Option.empty[String], List.empty[Item])) {
       case ((title, elems), n) =>
-        val link = (n \\ "id").text
+        val link = Some((n \\ "id").text)
         (
           title match {
             case None => WigleItemProcessor.produceFeedTitle(n)
             case _ => title
           },
           Item(
+            node = n,
             title = WigleItemProcessor.produceItemTitle(n),
             link = link,
-            guid = link,
-            pubDate = (n \\ "published").text
+            guid = link
           ) :: elems
         )
     } match {

@@ -56,11 +56,16 @@ object Rss {
         guid = guid.getOrElse((node \\ "guid").text),
         title = title,
         link = link.getOrElse((node \\ "link").text),
-        pubDate = (node \\ "pubDate").text
+        pubDate =
+          (node \\ "pubDate").headOption.getOrElse(
+            (node \\ "published").headOption.getOrElse(
+              (node \\ "updated").head
+            )).text
       )
 
     def prefixLink(prefix: String): Item => Item = {
       i => i.copy(link = s"$prefix${i.link}")
     }
   }
+
 }

@@ -17,10 +17,10 @@ object GitlabParser {
       .filter(GitlabItemProcessor.itemFilter)
       .map(n =>
         Item(
+          n,
           title = GitlabItemProcessor.produceTitle(n),
-          link = n \\ "link" \@ "href",
-          guid = (n \\ "id").text,
-          pubDate = (n \\ "updated").text
+          link = Some(n \\ "link" \@ "href"),
+          guid = Some((n \\ "id").text)
         )).toList
   }
 }
