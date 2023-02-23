@@ -19,9 +19,12 @@ object ChangesetDiscussItemProcessor {
   }
 
   def produceLink(n: Node): String = {
-    val path = (n \\ "link").\@("href").replaceFirst("http:", "https:")
+    (n \\ "link").\@("href").replaceFirst("http:", "https:")
+  }
+
+  def produceGuid(n: Node): String = {
     val index = getCommentIndex(n).map(s => s"#comment_$s").getOrElse("")
-    s"$path$index"
+    s"${produceLink(n)}$index"
   }
 
   def getCommentIndex(n: Node): Option[String] = {

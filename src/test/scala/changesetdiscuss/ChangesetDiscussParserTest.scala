@@ -33,7 +33,7 @@ class ChangesetDiscussParserTest extends AnyFreeSpec with Matchers {
         items = List(
           Item(
             title = "Hi! Bye -OpenStreet Mapper",
-            link = "https://www.openstreetmap.org/changeset/123456789#comment_2",
+            link = "https://www.openstreetmap.org/changeset/123456789",
             guid = "https://www.openstreetmap.org/changeset/123456789#comment_2",
             pubDate = "2020-04-01T13:37:00+00:00"
           )

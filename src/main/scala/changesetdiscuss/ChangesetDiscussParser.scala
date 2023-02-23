@@ -15,12 +15,11 @@ object ChangesetDiscussParser {
   private def convertItems(seq: NodeSeq): List[Item] = {
     seq
       .map(n => {
-        val link = Some(ChangesetDiscussItemProcessor.produceLink(n))
         Item(
           node = n,
           title = ChangesetDiscussItemProcessor.produceTitle(n),
-          link = link,
-          guid = link
+          link = Some(ChangesetDiscussItemProcessor.produceLink(n)),
+          guid = Some(ChangesetDiscussItemProcessor.produceGuid(n))
         )
       }).toList
   }
