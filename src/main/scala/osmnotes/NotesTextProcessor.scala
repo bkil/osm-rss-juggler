@@ -5,6 +5,11 @@ object NotesTextProcessor {
     noDuplicate(noRegion(noJaras(noDistrict(ignoreDash(t)))))
   }
 
+  def addNoteIdToTitle(title: String, url: String): String = {
+    val id = raw"""^.*/([0-9]+)(#.*)?$$""".r.replaceAllIn(url, "$1")
+    title.replaceFirst(" [(]", s" $id (")
+  }
+
   def ignoreDash(s: String) = s.replace("–", "-")
 
   def noDistrict(s: String) = raw"(, [1-9][0-9]*(st|nd|rd|th) district), .*".r.replaceAllIn(s, n => s"${n.group(1)})")

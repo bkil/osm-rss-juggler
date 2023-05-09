@@ -13,7 +13,8 @@ object NotesItemProcessor {
     val title = (n \\ "title").text
     val description = (n \\ "description").text
     val comments = sliceCommentsInDescription(description)
+    val link = (n \\ "link").text
 
-    (simplifyTitle(title) :: comments).mkString(br)
+    (addNoteIdToTitle(simplifyTitle(title), link) :: comments).mkString(br)
   }
 }

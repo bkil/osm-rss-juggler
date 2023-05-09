@@ -24,6 +24,13 @@ class NotesTextProcessorTest extends AnyFreeSpec with Matchers {
     }
   }
 
+  "addNoteIdToTitle" - {
+    import NotesTextProcessor.addNoteIdToTitle
+    "1" in {
+      addNoteIdToTitle("x (y) (z)", "http://localhost/123#42") shouldBe "x 123 (y) (z)"
+    }
+  }
+
   "formatComment" - {
     import NotesTextProcessor.formatComment
     "1" in {
