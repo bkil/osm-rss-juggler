@@ -61,9 +61,9 @@ object NotesTextProcessor {
     def dropWraps(str: String): String =
       raw"""(?s)(\s*\n\s*)+""".r.replaceAllIn(str, br)
 
-    val formatter = raw"""(?s)([^<>]*) <span title=" *([^" ]+) ([^" ]+) ([^" ]+) at ([0-9]{2}:[0-9]{2})">[^<>]*</span>( by( )<a href="https://www\.openstreetmap\.org/user/[^"]*">([^<>]*)</a>)?</div>\s*<div class="note-comment-text">(.*)""".r
+    val formatter = raw"""(?s)([^<>]*) <(?:span|time) title=" *([^" ]+) ([^" ]+) ([^" ]+) at ([0-9]{2}:[0-9]{2})"[^<>]*>[^<>]*</(?:span|time)>(?: by( )<a href="https://www\.openstreetmap\.org/user/[^"]*">([^<>]*)</a>)?</div>\s*<div class="note-comment-text">(.*)""".r
     s match {
-      case formatter(action, day, month, year, time, _, creatorSpace, creatorName, comment) =>
+      case formatter(action, day, month, year, time, creatorSpace, creatorName, comment) =>
         s"$year $month $day" ->
           s"* $year $month $day $time${emptyNull(creatorSpace)}${emptyNull(creatorName)} $action: ${dropWraps(comment)}"
       case _ => s -> s

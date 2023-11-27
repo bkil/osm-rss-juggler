@@ -33,13 +33,23 @@ class NotesTextProcessorTest extends AnyFreeSpec with Matchers {
 
   "formatComment" - {
     import NotesTextProcessor.formatComment
-    "1" in {
+    "2022 - 1" in {
       val comment = """Created <span title="24 July 2020 at 10:41">19 days ago</span> by <a href="https://www.openstreetmap.org/user/HeidrichA">HeidrichA</a></div> <div class="note-comment-text">pls see at note #2277015"""
       formatComment(comment) shouldBe "2020 July 24" -> "* 2020 July 24 10:41 HeidrichA Created: pls see at note #2277015"
     }
 
-    "2" in {
+    "2022 - 2" in {
       val comment = """Created <span title="24 July 2020 at 10:41">19 days ago</span></div> <div class="note-comment-text">pls see at note #2277015"""
+      formatComment(comment) shouldBe "2020 July 24" -> "* 2020 July 24 10:41 Created: pls see at note #2277015"
+    }
+
+    "2023 - 1" in {
+      val comment = """Created <time title="24 July 2020 at 10:41" datetime="2020-07-24T10:41:42Z>about 19 days ago</time> by <a href="https://www.openstreetmap.org/user/HeidrichA">HeidrichA</a></div> <div class="note-comment-text">pls see at note #2277015"""
+      formatComment(comment) shouldBe "2020 July 24" -> "* 2020 July 24 10:41 HeidrichA Created: pls see at note #2277015"
+    }
+
+    "2023 - 2" in {
+      val comment = """Created <time title="24 July 2020 at 10:41" datetime="2020-07-24T10:41:42Z>about 19 days ago</time></div> <div class="note-comment-text">pls see at note #2277015"""
       formatComment(comment) shouldBe "2020 July 24" -> "* 2020 July 24 10:41 Created: pls see at note #2277015"
     }
   }
