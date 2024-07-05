@@ -15,7 +15,6 @@ object NotesParser {
 
   private def convertItems(seq: NodeSeq): List[Item] = {
     seq
-      .filter(NotesItemProcessor.itemFilter)
       .map(n => Item(node = n, title = NotesItemProcessor.produceTitle(n))).toList
   }
 }
