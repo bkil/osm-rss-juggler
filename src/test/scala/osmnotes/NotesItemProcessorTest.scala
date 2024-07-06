@@ -23,4 +23,17 @@ class NotesItemProcessorTest extends AnyFreeSpec with Matchers {
         "* 2020 August 12 20:49 gabro00 Resolved: Több probléma is volt, igyekeztem mindet megoldani. Ha nem sikerült volna maradéktalanul, nyisd újra a jegyzetet. https://www.openstreetmap.org/changeset/89322029").mkString(NotesTextProcessor.br)
     }
   }
+
+  "itemFilter" - {
+    import NotesItemProcessor.titleFilter
+    "1" in {
+      titleFilter("new note 1234 (near 47.123, 17.123)") shouldBe true
+    }
+    "2" in {
+      titleFilter("new note 1234 (near Szeged, Szeged, Szegedi járás, Hungary)") shouldBe true
+    }
+    "3" in {
+      titleFilter("new note 1234 (near 1234, Innere Stadt, Vienna, Austria)") shouldBe false
+    }
+  }
 }
